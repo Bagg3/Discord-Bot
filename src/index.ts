@@ -24,3 +24,24 @@ client.once(Events.ClientReady, c => {
 // Log in to Discord with your client's token
 client.login(token);
 
+/*
+client.on('message',
+function (messages){
+    if(messages.content.toLocaleLowerCase()==='bagge') 
+    messages.channel.send('Lizards'); //reply hello word message with senders name
+})
+*/
+
+client.on("message", msg => {
+  if (msg.content === "bagge") {
+    msg.reply("Lizards");
+  }
+})
+
+
+client.on("message", msg => {
+  if (msg.content === "Bagge") {
+    msg.reply("Lizards");
+  }
+})
+

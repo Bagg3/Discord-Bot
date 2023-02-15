@@ -13,7 +13,7 @@
     "discord.js": "^14.7.1",
     "dotenv": "^16.0.3"
   },
-  "description": "",
+    "description": "",
   "devDependencies": {
     "tsc-watch": "^6.0.0"
   }
