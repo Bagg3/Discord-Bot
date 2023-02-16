@@ -42,6 +42,7 @@ const lizardEmbed2 = new EmbedBuilder()
 const lizardEmbed3 = new EmbedBuilder()
 	.setImage('https://media.tenor.com/TGUcc-bbevAAAAAC/lizard-cute.gif');
 
+const viktor: string = 'https://img-9gag-fun.9cache.com/photo/a91WvPm_460s.jpg';
 
 
 const getBotCommands: string = 'Type .bot to get a list of commands';
@@ -90,6 +91,10 @@ if(messageCreate.content.toLocaleLowerCase()==='.bot') {
 // Random generator to send a random lizard gif when lizards is written
 if(messageCreate.content.toLocaleLowerCase()==='lizards' || messageCreate.content.toLocaleLowerCase()==='lizard') {
   randomLizard(messageCreate);
+}
+
+if(messageCreate.content.toLocaleLowerCase()==='smartcast') {
+  messageCreate.channel.send(viktor);
 }
 
 });

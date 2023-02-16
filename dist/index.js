@@ -25,6 +25,7 @@ const lizardEmbed2 = new EmbedBuilder()
     .setImage('https://media.tenor.com/msH3gTNQpwsAAAAd/lizards-chair-funny-animals.gif');
 const lizardEmbed3 = new EmbedBuilder()
     .setImage('https://media.tenor.com/TGUcc-bbevAAAAAC/lizard-cute.gif');
+const viktor = 'https://img-9gag-fun.9cache.com/photo/a91WvPm_460s.jpg';
 const getBotCommands = 'Type .bot to get a list of commands';
 const botCommands = "Type 'bagge' to get a bonk gif\n Type 'wait' to wait 5 seconds\n Type 'lizards' to get a random lizard gif\n";
 // Function to wait for 5 secs
@@ -65,6 +66,9 @@ client.on('messageCreate', function (messageCreate) {
     // Random generator to send a random lizard gif when lizards is written
     if (messageCreate.content.toLocaleLowerCase() === 'lizards' || messageCreate.content.toLocaleLowerCase() === 'lizard') {
         randomLizard(messageCreate);
+    }
+    if (messageCreate.content.toLocaleLowerCase() === 'smartcast') {
+        messageCreate.channel.send(viktor);
     }
 });
 // Random generator to send a random lizard gif when lizards is written
