@@ -16,22 +16,58 @@ client.once(Events.ClientReady, c => {
 });
 client.login(token);
 // Bonk gif
-const exampleEmbed = new EmbedBuilder()
+const bonkEmbed = new EmbedBuilder()
     .setImage('https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif');
-//Send bonk gif when bagge is written
+// Lizard gifs
+const lizardEmbed = new EmbedBuilder()
+    .setImage('https://media.tenor.com/xTyVDYFg_fsAAAAC/lizard-hehe.gif');
+const lizardEmbed2 = new EmbedBuilder()
+    .setImage('https://media.tenor.com/msH3gTNQpwsAAAAd/lizards-chair-funny-animals.gif');
+const lizardEmbed3 = new EmbedBuilder()
+    .setImage('https://media.tenor.com/TGUcc-bbevAAAAAC/lizard-cute.gif');
+const getBotCommands = 'Type .bot to get a list of commands';
+const botCommands = "Type 'bagge' to get a bonk gif\n Type 'wait' to wait 5 seconds\n Type 'lizards' to get a random lizard gif\n";
+// Function to wait for 5 secs
+function waitFiveSeconds(messageCreate) {
+    setTimeout(function () {
+        messageCreate.channel.send('5 seconds have passed');
+    }, 5000);
+}
+function randomLizard(messageCreate) {
+    const randomLizard = Math.floor(Math.random() * 3) + 1;
+    if (randomLizard === 1) {
+        messageCreate.channel.send({ embeds: [lizardEmbed] });
+    }
+    if (randomLizard === 2) {
+        messageCreate.channel.send({ embeds: [lizardEmbed2] });
+    }
+    if (randomLizard === 3) {
+        messageCreate.channel.send({ embeds: [lizardEmbed3] });
+    }
+}
 client.on('messageCreate', function (messageCreate) {
-    if (messageCreate.content.toLocaleLowerCase() === 'bagge')
-        messageCreate.channel.send({ embeds: [exampleEmbed] });
-});
-client.on('messageCreate', function (messageCreate) {
-    if (messageCreate.content.toLocaleLowerCase() === 'wait')
+    //Send bonk gif when bagge is written  
+    if (messageCreate.content.toLocaleLowerCase() === 'bagge') {
+        messageCreate.channel.send({ embeds: [bonkEmbed] });
+    }
+    // Function to wait for 5 secs
+    if (messageCreate.content.toLocaleLowerCase() === 'wait') {
+        if (messageCreate.author.bot) {
+            return;
+        }
         messageCreate.channel.send('Waiting for 5 seconds');
-    //setTimeout(5000);
-    messageCreate.channel.send('5 seconds have passed');
-    //reply hello word message with senders name
+        waitFiveSeconds(messageCreate);
+    }
+    // Send bot commands when .bot is written
+    if (messageCreate.content.toLocaleLowerCase() === '.bot') {
+        messageCreate.channel.send(botCommands);
+    }
+    // Random generator to send a random lizard gif when lizards is written
+    if (messageCreate.content.toLocaleLowerCase() === 'lizards' || messageCreate.content.toLocaleLowerCase() === 'lizard') {
+        randomLizard(messageCreate);
+    }
 });
-// wait for 5 seconds
-//setTimeout(5000);
+// Random generator to send a random lizard gif when lizards is written
 // Link to bonk gif
 //https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif
 //Error handling
