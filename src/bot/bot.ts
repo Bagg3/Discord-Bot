@@ -1,11 +1,25 @@
 import { Client, Events, GatewayIntentBits, Guild } from "discord.js";
 import { Ressources } from "./ress.js";
 import { RateLimiter } from "discord.js-rate-limiter";
-import * as dotenv from "dotenv";
 
 export class Bot {
+  rateLimiter: RateLimiter;
+  client: Client;
+
+  // Constructor to create a new rate limiter
+  constructor() {
+    this.rateLimiter = new RateLimiter(1, 2000);
+    this.client = new Client({
+      intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMessages,
+      ],
+    });
+  }
+
   // Function to use in send random lizard
-  public static randomLizard(messageCreate: any) {
+  randomLizard(messageCreate: any) {
     const randomLizard = Math.floor(Math.random() * 3) + 1;
     if (randomLizard === 1) {
       messageCreate.channel.send({ embeds: [Ressources.lizardEmbed] });
@@ -19,13 +33,15 @@ export class Bot {
   }
 
   // Function to wait for 5 secs
-  public static waitFiveSeconds(messageCreate: any) {
+  waitFiveSeconds(messageCreate: any) {
     setTimeout(function () {
       messageCreate.channel.send("5 seconds have passed");
     }, 5000);
   }
   // Function to send bot commands
-  public static sendBotCommands(messageCreate: any) {
+  sendBotCommands(messageCreate: any) {
+    const bot = new Bot();
+
     if (messageCreate.content.toLocaleLowerCase() === "bagge") {
       messageCreate.channel.send({ embeds: [Ressources.bonkEmbed] });
       //player.play(ressources);
@@ -34,7 +50,7 @@ export class Bot {
     // Function to wait for 5 secs
     if (messageCreate.content.toLocaleLowerCase() === "wait") {
       messageCreate.channel.send("Waiting for 5 seconds");
-      Bot.waitFiveSeconds(messageCreate);
+      bot.waitFiveSeconds(messageCreate);
     }
     // Send bot commands when .bot is written
     if (messageCreate.content.toLocaleLowerCase() === ".bot") {
@@ -43,12 +59,34 @@ export class Bot {
 
     // Random generator to send a random lizard gif when lizards is written
     if (messageCreate.content.toLocaleLowerCase() === "ea") {
-      Bot.randomLizard(messageCreate);
+      bot.randomLizard(messageCreate);
     }
 
     // Sends a link to a viktor picture when smartcast is written
     if (messageCreate.content.toLocaleLowerCase() === "smartcast") {
       messageCreate.channel.send(Ressources.viktor);
     }
+  }
+
+  checkIfmessageIsgood(messageCreate: any) {
+    if (messageCreate.author.bot) {
+      return;
+    }
+    //Check if user is rate limited
+    let rateLimited = this.rateLimiter.take(messageCreate.author.id);
+
+    if (rateLimited) {
+      return 0;
+    }
+  }
+
+  initClient() {
+    const token: string = process.env.TOKEN;
+
+    this.client.once(Events.ClientReady, (c) => {
+      console.log(`Ready! Logged in as ${c.user.tag}`);
+    });
+
+    this.client.login(token);
   }
 }
