@@ -67,12 +67,22 @@ export class Bot {
             return 0;
         }
     }
-    initClient() {
+    loginClient() {
         const token = process.env.TOKEN;
         this.client.once(Events.ClientReady, (c) => {
             console.log(`Ready! Logged in as ${c.user.tag}`);
         });
         this.client.login(token);
+        this.client.on("messageCreate", this.onMessageCreate.bind(this));
+    }
+    onMessageCreate(messageCreate) {
+        // Checks if the message is good
+        const check = this.checkIfmessageIsgood(messageCreate);
+        if (check === 0) {
+            return;
+        }
+        // Sends bot commands when a message is sent
+        this.sendBotCommands(messageCreate);
     }
 }
 //# sourceMappingURL=bot.js.map

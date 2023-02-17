@@ -80,7 +80,7 @@ export class Bot {
     }
   }
 
-  initClient() {
+  loginClient() {
     const token: string = process.env.TOKEN;
 
     this.client.once(Events.ClientReady, (c) => {
@@ -88,5 +88,17 @@ export class Bot {
     });
 
     this.client.login(token);
+
+    this.client.on("messageCreate", this.onMessageCreate.bind(this));
+  }
+
+  onMessageCreate(messageCreate) {
+    // Checks if the message is good
+    const check = this.checkIfmessageIsgood(messageCreate);
+    if (check === 0) {
+      return;
+    }
+    // Sends bot commands when a message is sent
+    this.sendBotCommands(messageCreate);
   }
 }
