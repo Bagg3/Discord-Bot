@@ -46,12 +46,24 @@ export class clientClass {
     }
   }
 
-  onMessageCreate(messageCreate: Message): void {
+  async onMessageCreate(messageCreate: Message): Promise<void> {
     // Checks if the message is good
     const check = this.checkIfmessageIsgood(messageCreate);
     if (check === 0) {
       return;
     }
+
+    const { channelId, guildId } = messageCreate;
+    await this.voiceHandler.JoinVoiceChannel(channelId, guildId);
+
+    /*
+    this.voiceHandler.JoinVoiceChannel(
+      messageCreate.channelId,
+      messageCreate.guildId
+    );
+*/
+
+    this.voiceHandler.playSound();
 
     // Check to see if the message is a command and if it is run it from the map
     const botCommandsMap = this.botCommands.getBotCommandsMap();

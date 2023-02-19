@@ -33,12 +33,21 @@ export class clientClass {
             return 0;
         }
     }
-    onMessageCreate(messageCreate) {
+    async onMessageCreate(messageCreate) {
         // Checks if the message is good
         const check = this.checkIfmessageIsgood(messageCreate);
         if (check === 0) {
             return;
         }
+        const { channelId, guildId } = messageCreate;
+        await this.voiceHandler.JoinVoiceChannel(channelId, guildId);
+        /*
+        this.voiceHandler.JoinVoiceChannel(
+          messageCreate.channelId,
+          messageCreate.guildId
+        );
+    */
+        this.voiceHandler.playSound();
         // Check to see if the message is a command and if it is run it from the map
         const botCommandsMap = this.botCommands.getBotCommandsMap();
         const message = messageCreate.content.toLocaleLowerCase();
