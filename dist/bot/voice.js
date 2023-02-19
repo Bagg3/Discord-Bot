@@ -3,7 +3,7 @@ import { joinVoiceChannel, createAudioResource, getVoiceConnection, } from "@dis
 export class voiceHandlerClass {
     // Make a client object from the bot class
     constructor(client) {
-        this.connect = getVoiceConnection("377176294770606091");
+        this.channel = getVoiceConnection("331120671545360385");
         this.bonkSound = createAudioResource("./Bonk.mp3");
         this.client = client;
     }

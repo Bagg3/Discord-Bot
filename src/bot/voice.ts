@@ -12,7 +12,7 @@ import {
 } from "@discordjs/voice";
 
 // Import discord.js dependencies
-import { Client, Events, GatewayIntentBits, Guild } from "discord.js";
+import { Client, Events, GatewayIntentBits, Guild, Channel } from "discord.js";
 import { clientClass } from "./client.js";
 
 export class voiceHandlerClass {
@@ -23,7 +23,7 @@ export class voiceHandlerClass {
     this.client = client;
   }
 
-  connect = getVoiceConnection("377176294770606091");
+  channel = getVoiceConnection("331120671545360385");
 
   // Join the voice channel function
   joinVoiceChannel(channel) {
