@@ -1,10 +1,12 @@
-// Require the necessary discord.js classes
+// Importing the bot class for all the commands
+import { clientClass } from "./bot/client.js";
 import * as dotenv from "dotenv";
-import { Bot } from "./bot/bot.js";
 const result = dotenv.config();
-const botCommands = new Bot();
 if (result.error) {
     throw result.error;
 }
-botCommands.loginClient();
+// Creating a new bot object
+const client = new clientClass();
+// Login the bot and event handling
+client.loginClient();
 //# sourceMappingURL=index.js.map
