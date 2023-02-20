@@ -1,7 +1,9 @@
 import { EmbedBuilder, Message } from "discord.js";
+import { voiceHandlerClass } from "./voice.js";
 
 export class commands {
   botCommandsMap: Map<string, Function>;
+  voiceHandler: voiceHandlerClass;
 
   constructor() {
     this.botCommandsMap = new Map();

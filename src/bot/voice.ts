@@ -27,7 +27,7 @@ export class voiceHandlerClass {
   }
 
   // Function to join a voice channel
-  async JoinVoiceChannel(channelID: string, guildID: string) {
+  JoinVoiceChannel(channelID: string, guildID: string) {
     const channelBaggeServer = "1075453469168766989";
     const guildBaggeServer = "1075453467742711899";
     const guild = this.client.client.guilds.cache.get(guildBaggeServer);
@@ -41,7 +41,13 @@ export class voiceHandlerClass {
 
     console.log("Trying to join");
 
-    try {
+    this.connection.on(VoiceConnectionStatus.Ready, () => {
+      console.log(
+        "The connection has entered the Ready state - ready to play audio!"
+      );
+    });
+
+    /*  try {
       await entersState(this.connection, VoiceConnectionStatus.Ready, 20_000);
       console.log(
         "The connection has entered the Ready state - ready to play audio!"
@@ -49,32 +55,17 @@ export class voiceHandlerClass {
     } catch (error) {
       console.error(error);
     }
+    */
+  }
+
+  VoicedestroyConnection() {
+    this.connection.destroy();
   }
 
   //Function to make a audio player
   makeAudioPlayer() {
     this.audioPlayer = createAudioPlayer();
   }
-
-  /*
-  // Function to play a sound
-  playSound() {
-    this.makeAudioPlayer();
-    const bonkSound = createAudioResource("./Bonk.mp3");
-    this.audioPlayer.play(bonkSound);
-
-    const subscription = this.connection.subscribe(this.audioPlayer);
-
-    if (subscription) {
-      // Unsubscribe after 5 seconds (stop playing audio on the voice connection)
-      setTimeout(() => subscription.unsubscribe(), 5_000);
-    }
-
-    this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
-      console.log("The audio player has started playing!");
-    });
-  }
-*/
 
   async playSound() {
     this.makeAudioPlayer();
@@ -102,5 +93,27 @@ export class voiceHandlerClass {
     } catch (error) {
       console.error(error);
     }
+
+    //this.connection.destroy();
   }
 }
+
+/*
+  // Function to play a sound
+  playSound() {
+    this.makeAudioPlayer();
+    const bonkSound = createAudioResource("./Bonk.mp3");
+    this.audioPlayer.play(bonkSound);
+
+    const subscription = this.connection.subscribe(this.audioPlayer);
+
+    if (subscription) {
+      // Unsubscribe after 5 seconds (stop playing audio on the voice connection)
+      setTimeout(() => subscription.unsubscribe(), 5_000);
+    }
+
+    this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
+      console.log("The audio player has started playing!");
+    });
+  }
+*/

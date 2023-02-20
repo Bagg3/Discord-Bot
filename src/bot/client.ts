@@ -34,27 +34,29 @@ export class clientClass {
     this.client.on("messageCreate", this.onMessageCreate.bind(this));
   }
 
-  checkIfmessageIsgood(messageCreate: any): number {
+  checkIfmessageIsgood(messageCreate: any): boolean {
     if (messageCreate.author.bot) {
-      return;
+      return false;
     }
     //Check if user is rate limited
     let rateLimited = this.rateLimiter.take(messageCreate.author.id);
 
     if (rateLimited) {
-      return 0;
+      return false;
     }
+
+    return true;
   }
 
   async onMessageCreate(messageCreate: Message): Promise<void> {
     // Checks if the message is good
     const check = this.checkIfmessageIsgood(messageCreate);
-    if (check === 0) {
+    if (!check) {
       return;
     }
-
+    console.log("Lort");
     const { channelId, guildId } = messageCreate;
-    await this.voiceHandler.JoinVoiceChannel(channelId, guildId);
+    this.voiceHandler.JoinVoiceChannel(channelId, guildId);
 
     /*
     this.voiceHandler.JoinVoiceChannel(
@@ -63,7 +65,7 @@ export class clientClass {
     );
 */
 
-    this.voiceHandler.playSound();
+    //this.voiceHandler.playSound();
 
     // Check to see if the message is a command and if it is run it from the map
     const botCommandsMap = this.botCommands.getBotCommandsMap();
