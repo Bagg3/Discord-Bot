@@ -49,7 +49,7 @@ export class clientClass {
     return true;
   }
 
-  async onMessageCreate(messageCreate: Message): Promise<void> {
+  onMessageCreate(messageCreate: Message): Promise<void> {
     // Checks if the message is good
     const check = this.checkIfmessageIsgood(messageCreate);
     if (!check) {

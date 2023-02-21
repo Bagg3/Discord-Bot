@@ -35,7 +35,7 @@ export class clientClass {
         }
         return true;
     }
-    async onMessageCreate(messageCreate) {
+    onMessageCreate(messageCreate) {
         // Checks if the message is good
         const check = this.checkIfmessageIsgood(messageCreate);
         if (!check) {
