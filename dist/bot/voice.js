@@ -45,7 +45,7 @@ export class voiceHandlerClass {
         this.makeAudioPlayer();
         //const bonkSound = createAudioResource("Bonk.mp3");
         //read in the file bonk.dca, fill out dirname
-        const bonkSound = createAudioResource(join(__dirname, "Bonk.mp3"));
+        const bonkSound = createAudioResource(join(__dirname, "bonk.dca"));
         this.audioPlayer.play(bonkSound);
         const subscription = this.connection.subscribe(this.audioPlayer);
         this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
