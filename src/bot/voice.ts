@@ -7,22 +7,11 @@ import {
   AudioPlayerStatus,
   entersState,
   VoiceConnectionStatus,
-  StreamType,
-  getVoiceConnection,
-  DiscordGatewayAdapterCreator,
   AudioPlayer,
 } from "@discordjs/voice";
 
-import { join } from "node:path";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 // Import discord.js dependencies
 import { clientClass } from "./client.js";
-
 export class voiceHandlerClass {
   client: clientClass;
   connection: VoiceConnection;
@@ -36,12 +25,21 @@ export class voiceHandlerClass {
   // Function to join a voice channel
   JoinVoiceChannel(channelID: string, guildID: string) {
     const channelBaggeServer = "1075453469168766989";
-    const guildBaggeServer = "1075453467742711899";
-    const guild = this.client.client.guilds.cache.get(guildBaggeServer);
+    const channelKal = "377176294770606091";
+
+    if (channelID === "1075453469168766988") {
+      channelID = channelBaggeServer;
+    }
+
+    if (channelID === "331120671545360385") {
+      channelID = channelKal;
+    }
+
+    const guild = this.client.client.guilds.cache.get(guildID);
 
     this.connection = joinVoiceChannel({
-      channelId: channelBaggeServer,
-      guildId: guildBaggeServer,
+      channelId: channelID,
+      guildId: guildID,
       adapterCreator: guild.voiceAdapterCreator,
     });
 
@@ -50,67 +48,34 @@ export class voiceHandlerClass {
         "The connection has entered the Ready state - ready to play audio!"
       );
     });
-
-    this.connection.setSpeaking(true);
-    /*
-    try {
-      await entersState(this.connection, VoiceConnectionStatus.Ready, 20_000);
-      console.log(
-        "The connection has entered the Ready state - ready to play audio!"
-      );
-    } catch (error) {
-      console.error(error);
-    }
-*/
   }
 
-  VoicedestroyConnection() {
-    this.connection.destroy();
-  }
-
-  //Function to make a audio player
-  makeAudioPlayer() {
-    this.audioPlayer = createAudioPlayer();
-  }
-
-  async playSound() {
+  playSound() {
     this.makeAudioPlayer();
-    //const bonkSound = createAudioResource("Bonk.mp3");
-
-    //read in the file bonk.dca, fill out dirname
-
-    const bonkSound = createAudioResource(join(__dirname, "bonk.dca"));
-    this.audioPlayer.play(bonkSound);
-
     const subscription = this.connection.subscribe(this.audioPlayer);
+    const bonkSound = createAudioResource("Bonk.mp3");
+    this.audioPlayer.play(bonkSound);
 
     this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
       console.log("The audio player has started playing!");
     });
-
-    //@ts-ignore
-    this.audioPlayer.on("error", (error) => {
-      console.error(
-        //@ts-ignore
-        `Error: ${error.message} with resource ${error.resource.metadata.title}`
-      );
-      //@ts-ignore
-      this.audioPlayer.play(getNextResource());
-    });
-
-    try {
-      await entersState(this.connection, VoiceConnectionStatus.Ready, 20_000);
-      console.log(
-        "The connection has entered the Ready state - ready to play audio!"
-      );
-    } catch (error) {
-      console.error(error);
-    }
 
     if (subscription) {
       // Unsubscribe after 5 seconds (stop playing audio on the voice connection)
       setTimeout(() => subscription.unsubscribe(), 5_000);
       console.log("Unsubscribed after 5 seconds");
     }
+  }
+
+  makeAudioPlayer() {
+    this.audioPlayer = createAudioPlayer();
+  }
+
+  VoicedestroyConnection() {
+    this.audioPlayer.on("stateChange" as any, (oldState, newState) => {
+      if (newState.status === AudioPlayerStatus.Idle) {
+        this.connection.destroy();
+      }
+    });
   }
 }

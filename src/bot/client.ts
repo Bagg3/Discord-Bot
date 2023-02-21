@@ -56,17 +56,14 @@ export class clientClass {
       return;
     }
 
-    const { channelId, guildId } = messageCreate;
-    this.voiceHandler.JoinVoiceChannel(channelId, guildId);
-
-    /*
-    this.voiceHandler.JoinVoiceChannel(
-      messageCreate.channelId,
-      messageCreate.guildId
-    );
-*/
-
-    this.voiceHandler.playSound();
+    if (messageCreate.content.toLocaleLowerCase() === "bagge") {
+      this.voiceHandler.JoinVoiceChannel(
+        messageCreate.channelId,
+        messageCreate.guildId
+      );
+      this.voiceHandler.playSound();
+      this.voiceHandler.VoicedestroyConnection();
+    }
 
     // Check to see if the message is a command and if it is run it from the map
     const botCommandsMap = this.botCommands.getBotCommandsMap();

@@ -1,9 +1,6 @@
 import { EmbedBuilder, Message } from "discord.js";
-import { voiceHandlerClass } from "./voice.js";
-
 export class commands {
   botCommandsMap: Map<string, Function>;
-  voiceHandler: voiceHandlerClass;
 
   constructor() {
     this.botCommandsMap = new Map();
@@ -43,21 +40,21 @@ export class commands {
     }
   }
 
-  bonkCommand(messageCreate: any) {
+  bonkCommand(messageCreate: Message) {
     const bonkEmbed = new EmbedBuilder().setImage(
       "https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif"
     );
     messageCreate.channel.send({ embeds: [bonkEmbed] });
   }
 
-  pandaCommand(messageCreate: any) {
+  pandaCommand(messageCreate: Message) {
     const panda = new EmbedBuilder().setImage(
       "https://media.tenor.com/v0zpv4iRa7IAAAAC/panda-lazy.gif"
     );
     messageCreate.channel.send({ embeds: [panda] });
   }
 
-  fieCommand(messageCreate: any) {
+  fieCommand(messageCreate: Message) {
     const Fie = new EmbedBuilder().setImage(
       "https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif"
     );
