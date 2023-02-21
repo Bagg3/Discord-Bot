@@ -15,6 +15,7 @@ export class clientClass {
         GatewayIntentBits.Guilds,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.GuildVoiceStates,
       ],
     });
     this.rateLimiter = new RateLimiter(1, 2000);
@@ -54,7 +55,7 @@ export class clientClass {
     if (!check) {
       return;
     }
-    console.log("Lort");
+
     const { channelId, guildId } = messageCreate;
     this.voiceHandler.JoinVoiceChannel(channelId, guildId);
 
@@ -65,7 +66,7 @@ export class clientClass {
     );
 */
 
-    //this.voiceHandler.playSound();
+    this.voiceHandler.playSound();
 
     // Check to see if the message is a command and if it is run it from the map
     const botCommandsMap = this.botCommands.getBotCommandsMap();

@@ -1,5 +1,10 @@
 // Import voice dependencies from discord/voice
 import { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, entersState, VoiceConnectionStatus, } from "@discordjs/voice";
+import { join } from "node:path";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 export class voiceHandlerClass {
     // Make a client object from the bot class
     constructor(client) {
@@ -10,16 +15,15 @@ export class voiceHandlerClass {
         const channelBaggeServer = "1075453469168766989";
         const guildBaggeServer = "1075453467742711899";
         const guild = this.client.client.guilds.cache.get(guildBaggeServer);
-        const temp = joinVoiceChannel({
+        this.connection = joinVoiceChannel({
             channelId: channelBaggeServer,
             guildId: guildBaggeServer,
             adapterCreator: guild.voiceAdapterCreator,
         });
-        this.connection = temp;
-        console.log("Trying to join");
         this.connection.on(VoiceConnectionStatus.Ready, () => {
             console.log("The connection has entered the Ready state - ready to play audio!");
         });
+        this.connection.setSpeaking(true);
         /*  try {
           await entersState(this.connection, VoiceConnectionStatus.Ready, 20_000);
           console.log(
@@ -39,11 +43,21 @@ export class voiceHandlerClass {
     }
     async playSound() {
         this.makeAudioPlayer();
-        const bonkSound = createAudioResource("C:Usersandrecode\typescriptproject1Bonk.mp3");
+        //const bonkSound = createAudioResource("Bonk.mp3");
+        //read in the file bonk.dca, fill out dirname
+        const bonkSound = createAudioResource(join(__dirname, "Bonk.mp3"));
         this.audioPlayer.play(bonkSound);
         const subscription = this.connection.subscribe(this.audioPlayer);
         this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
             console.log("The audio player has started playing!");
+        });
+        //@ts-ignore
+        this.audioPlayer.on("error", (error) => {
+            console.error(
+            //@ts-ignore
+            `Error: ${error.message} with resource ${error.resource.metadata.title}`);
+            //@ts-ignore
+            this.audioPlayer.play(getNextResource());
         });
         try {
             await entersState(this.connection, VoiceConnectionStatus.Ready, 20000);

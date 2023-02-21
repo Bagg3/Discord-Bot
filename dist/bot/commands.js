@@ -8,6 +8,7 @@ export class commands {
         this.botCommandsMap.set("e", this.pandaCommand);
         this.botCommandsMap.set("fie", this.fieCommand);
         this.botCommandsMap.set(".bot", this.dotBotCommand);
+        this.botCommandsMap.set("terminator", this.terminateCommand);
     }
     // Function to return the map
     getBotCommandsMap() {
@@ -47,6 +48,10 @@ export class commands {
     smartcastCommand(messageCreate) {
         const viktor = "https://img-9gag-fun.9cache.com/photo/a91WvPm_460s.jpg";
         messageCreate.channel.send(viktor);
+    }
+    terminateCommand(messageCreate) {
+        const termniator = "issolate, terminate";
+        messageCreate.channel.send(termniator);
     }
 }
 //# sourceMappingURL=commands.js.map
