@@ -14,7 +14,8 @@ export class clientClass {
         });
         this.rateLimiter = new RateLimiter(1, 2000);
         this.botCommands = new commands();
-        this.voiceHandler = new voiceHandlerClass(this);
+        this.voiceHandler = new voiceHandlerClass();
+        //this.botCommands = new commands(this);
     }
     loginClient() {
         const token = process.env.TOKEN;
@@ -35,14 +36,19 @@ export class clientClass {
         }
         return true;
     }
+    getGuilds(messageCreate) {
+        return this.client.guilds.cache.get(messageCreate.guildId);
+    }
     onMessageCreate(messageCreate) {
         // Checks if the message is good
         const check = this.checkIfmessageIsgood(messageCreate);
         if (!check) {
             return;
         }
+        // Get guilds cache
+        const guilds = this.getGuilds(messageCreate);
         if (messageCreate.content.toLocaleLowerCase() === "bagge") {
-            this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId);
+            this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guilds);
             this.voiceHandler.playSound();
             this.voiceHandler.VoicedestroyConnection();
         }

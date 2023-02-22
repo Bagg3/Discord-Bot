@@ -1,8 +1,15 @@
-import { EmbedBuilder, Message } from "discord.js";
+import { EmbedBuilder, Message, Client } from "discord.js";
+import { clientClass } from "./client.js";
+import { voiceHandlerClass } from "./voice.js";
 export class commands {
   botCommandsMap: Map<string, Function>;
+  voiceHandler: voiceHandlerClass;
+  //c: Client;
+
+  //constructor(client: Client)
 
   constructor() {
+    this.voiceHandler = new voiceHandlerClass();
     this.botCommandsMap = new Map();
     this.botCommandsMap.set("bagge", this.bonkCommand);
     this.botCommandsMap.set("ea", this.randomLizard);
@@ -11,11 +18,40 @@ export class commands {
     this.botCommandsMap.set("fie", this.fieCommand);
     this.botCommandsMap.set(".bot", this.dotBotCommand);
     this.botCommandsMap.set("terminator", this.terminateCommand);
+    //this.c = client;
   }
 
   // Function to return the map
   getBotCommandsMap() {
     return this.botCommandsMap;
+  }
+
+  bonkCommand(messageCreate: Message) {
+    const bonkEmbed = new EmbedBuilder().setImage(
+      "https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif"
+    );
+    messageCreate.channel.send({ embeds: [bonkEmbed] });
+
+    /*
+    
+    //this.c.getGuilds(messageCreate.guildId);
+    //this.client.getGuilds(messageCreate.guildId);
+
+    const guild = this.c.guilds.cache.get(messageCreate.guildId);
+    //console.log(guild);
+
+    console.log(messageCreate.channelId);
+    console.log(messageCreate.guildId);
+
+    this.voiceHandler.JoinVoiceChannel(
+      messageCreate.channelId,
+      messageCreate.guildId,
+      guild
+    );
+    this.voiceHandler.playSound();
+    this.voiceHandler.VoicedestroyConnection();
+
+    */
   }
 
   randomLizard(messageCreate: any) {
@@ -38,13 +74,6 @@ export class commands {
       );
       messageCreate.channel.send({ embeds: [lizardEmbed3] });
     }
-  }
-
-  bonkCommand(messageCreate: Message) {
-    const bonkEmbed = new EmbedBuilder().setImage(
-      "https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif"
-    );
-    messageCreate.channel.send({ embeds: [bonkEmbed] });
   }
 
   pandaCommand(messageCreate: Message) {

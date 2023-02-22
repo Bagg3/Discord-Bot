@@ -1,6 +1,10 @@
 import { EmbedBuilder } from "discord.js";
+import { voiceHandlerClass } from "./voice.js";
 export class commands {
+    //c: Client;
+    //constructor(client: Client)
     constructor() {
+        this.voiceHandler = new voiceHandlerClass();
         this.botCommandsMap = new Map();
         this.botCommandsMap.set("bagge", this.bonkCommand);
         this.botCommandsMap.set("ea", this.randomLizard);
@@ -9,10 +13,35 @@ export class commands {
         this.botCommandsMap.set("fie", this.fieCommand);
         this.botCommandsMap.set(".bot", this.dotBotCommand);
         this.botCommandsMap.set("terminator", this.terminateCommand);
+        //this.c = client;
     }
     // Function to return the map
     getBotCommandsMap() {
         return this.botCommandsMap;
+    }
+    bonkCommand(messageCreate) {
+        const bonkEmbed = new EmbedBuilder().setImage("https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif");
+        messageCreate.channel.send({ embeds: [bonkEmbed] });
+        /*
+        
+        //this.c.getGuilds(messageCreate.guildId);
+        //this.client.getGuilds(messageCreate.guildId);
+    
+        const guild = this.c.guilds.cache.get(messageCreate.guildId);
+        //console.log(guild);
+    
+        console.log(messageCreate.channelId);
+        console.log(messageCreate.guildId);
+    
+        this.voiceHandler.JoinVoiceChannel(
+          messageCreate.channelId,
+          messageCreate.guildId,
+          guild
+        );
+        this.voiceHandler.playSound();
+        this.voiceHandler.VoicedestroyConnection();
+    
+        */
     }
     randomLizard(messageCreate) {
         const randomLizard = Math.floor(Math.random() * 3) + 1;
@@ -28,10 +57,6 @@ export class commands {
             const lizardEmbed3 = new EmbedBuilder().setImage("https://media.tenor.com/TGUcc-bbevAAAAAC/lizard-cute.gif");
             messageCreate.channel.send({ embeds: [lizardEmbed3] });
         }
-    }
-    bonkCommand(messageCreate) {
-        const bonkEmbed = new EmbedBuilder().setImage("https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif");
-        messageCreate.channel.send({ embeds: [bonkEmbed] });
     }
     pandaCommand(messageCreate) {
         const panda = new EmbedBuilder().setImage("https://media.tenor.com/v0zpv4iRa7IAAAAC/panda-lazy.gif");

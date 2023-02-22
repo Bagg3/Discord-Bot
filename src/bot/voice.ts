@@ -11,19 +11,19 @@ import {
 } from "@discordjs/voice";
 
 // Import discord.js dependencies
-import { clientClass } from "./client.js";
+//import { clientClass } from "./client.js";
 export class voiceHandlerClass {
-  client: clientClass;
+  //client: clientClass;
   connection: VoiceConnection;
   audioPlayer: AudioPlayer;
 
   // Make a client object from the bot class
-  constructor(client: clientClass) {
-    this.client = client;
+  constructor() {
+    //this.client = client;
   }
 
   // Function to join a voice channel
-  JoinVoiceChannel(channelID: string, guildID: string) {
+  public JoinVoiceChannel(channelID: string, guildID: string, guilds: any) {
     const channelBaggeServer = "1075453469168766989";
     const channelKal = "377176294770606091";
 
@@ -35,7 +35,7 @@ export class voiceHandlerClass {
       channelID = channelKal;
     }
 
-    const guild = this.client.client.guilds.cache.get(guildID);
+    const guild = guilds;
 
     this.connection = joinVoiceChannel({
       channelId: channelID,
@@ -51,9 +51,13 @@ export class voiceHandlerClass {
   }
 
   playSound() {
-    this.makeAudioPlayer();
+    this.audioPlayer = createAudioPlayer();
     const subscription = this.connection.subscribe(this.audioPlayer);
-    const bonkSound = createAudioResource("Bonk.mp3");
+    //const bonkSound = createAudioResource("Bonk.mp3");
+    const bonkSound = createAudioResource("bonkCartoon.mp3");
+
+    bonkSound.volume?.setVolume(2);
+
     this.audioPlayer.play(bonkSound);
 
     this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
