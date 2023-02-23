@@ -1,8 +1,8 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
-import { voiceHandlerClass } from "./voice.js";
+import { VoiceHandlerClass } from "./voice.js";
 import { RateLimiter } from "discord.js-rate-limiter";
-import { commands } from "./commands.js";
-export class clientClass {
+import { Commands } from "./commands.js";
+export class ClientClass {
     constructor() {
         this.client = new Client({
             intents: [
@@ -13,8 +13,8 @@ export class clientClass {
             ],
         });
         this.rateLimiter = new RateLimiter(1, 2000);
-        this.botCommands = new commands();
-        this.voiceHandler = new voiceHandlerClass();
+        this.botCommands = new Commands(this.client);
+        this.voiceHandler = new VoiceHandlerClass();
         //this.botCommands = new commands(this);
     }
     loginClient() {
@@ -47,11 +47,20 @@ export class clientClass {
         }
         // Get guilds cache
         const guilds = this.getGuilds(messageCreate);
+        /*
         if (messageCreate.content.toLocaleLowerCase() === "bagge") {
-            this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guilds);
-            this.voiceHandler.playSound();
-            this.voiceHandler.VoicedestroyConnection();
+          this.voiceHandler.JoinVoiceChannel(
+            messageCreate.channelId,
+            messageCreate.guildId,
+            guilds
+          );
+          this.voiceHandler.playSound();
+          this.voiceHandler.VoicedestroyConnection();
+    
+          
         }
+    
+        */
         // Check to see if the message is a command and if it is run it from the map
         const botCommandsMap = this.botCommands.getBotCommandsMap();
         const message = messageCreate.content.toLocaleLowerCase();

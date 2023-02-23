@@ -2,7 +2,7 @@
 import { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus, } from "@discordjs/voice";
 // Import discord.js dependencies
 //import { clientClass } from "./client.js";
-export class voiceHandlerClass {
+export class VoiceHandlerClass {
     // Make a client object from the bot class
     constructor() {
         //this.client = client;
@@ -27,13 +27,12 @@ export class voiceHandlerClass {
             console.log("The connection has entered the Ready state - ready to play audio!");
         });
     }
-    playSound() {
+    playSound(soundRef) {
         this.audioPlayer = createAudioPlayer();
         const subscription = this.connection.subscribe(this.audioPlayer);
         //const bonkSound = createAudioResource("Bonk.mp3");
-        const bonkSound = createAudioResource("bonkCartoon.mp3");
-        bonkSound.volume?.setVolume(2);
-        this.audioPlayer.play(bonkSound);
+        const sound = createAudioResource(soundRef);
+        this.audioPlayer.play(sound);
         this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
             console.log("The audio player has started playing!");
         });

@@ -1,24 +1,22 @@
 import { EmbedBuilder, Message, Client } from "discord.js";
-import { clientClass } from "./client.js";
-import { voiceHandlerClass } from "./voice.js";
-export class commands {
+import { ClientClass } from "./client.js";
+import { VoiceHandlerClass } from "./voice.js";
+export class Commands {
   botCommandsMap: Map<string, Function>;
-  voiceHandler: voiceHandlerClass;
-  //c: Client;
+  voiceHandler: VoiceHandlerClass;
 
   //constructor(client: Client)
 
-  constructor() {
-    this.voiceHandler = new voiceHandlerClass();
+  constructor(private c: Client) {
+    this.voiceHandler = new VoiceHandlerClass();
     this.botCommandsMap = new Map();
-    this.botCommandsMap.set("bagge", this.bonkCommand);
+    this.botCommandsMap.set("bagge", this.bonkCommand.bind(this));
     this.botCommandsMap.set("ea", this.randomLizard);
     this.botCommandsMap.set("smartcast", this.smartcastCommand);
     this.botCommandsMap.set("e", this.pandaCommand);
     this.botCommandsMap.set("fie", this.fieCommand);
     this.botCommandsMap.set(".bot", this.dotBotCommand);
     this.botCommandsMap.set("terminator", this.terminateCommand);
-    //this.c = client;
   }
 
   // Function to return the map
@@ -32,26 +30,16 @@ export class commands {
     );
     messageCreate.channel.send({ embeds: [bonkEmbed] });
 
-    /*
-    
-    //this.c.getGuilds(messageCreate.guildId);
-    //this.client.getGuilds(messageCreate.guildId);
-
     const guild = this.c.guilds.cache.get(messageCreate.guildId);
     //console.log(guild);
-
-    console.log(messageCreate.channelId);
-    console.log(messageCreate.guildId);
 
     this.voiceHandler.JoinVoiceChannel(
       messageCreate.channelId,
       messageCreate.guildId,
       guild
     );
-    this.voiceHandler.playSound();
+    this.voiceHandler.playSound("bonkCartoon.mp3");
     this.voiceHandler.VoicedestroyConnection();
-
-    */
   }
 
   randomLizard(messageCreate: any) {

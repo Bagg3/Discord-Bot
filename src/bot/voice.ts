@@ -12,7 +12,7 @@ import {
 
 // Import discord.js dependencies
 //import { clientClass } from "./client.js";
-export class voiceHandlerClass {
+export class VoiceHandlerClass {
   //client: clientClass;
   connection: VoiceConnection;
   audioPlayer: AudioPlayer;
@@ -50,15 +50,13 @@ export class voiceHandlerClass {
     });
   }
 
-  playSound() {
+  playSound(soundRef: string) {
     this.audioPlayer = createAudioPlayer();
     const subscription = this.connection.subscribe(this.audioPlayer);
     //const bonkSound = createAudioResource("Bonk.mp3");
-    const bonkSound = createAudioResource("bonkCartoon.mp3");
+    const sound = createAudioResource(soundRef);
 
-    bonkSound.volume?.setVolume(2);
-
-    this.audioPlayer.play(bonkSound);
+    this.audioPlayer.play(sound);
 
     this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
       console.log("The audio player has started playing!");
