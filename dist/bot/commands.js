@@ -1,4 +1,5 @@
 import { EmbedBuilder } from "discord.js";
+import { MongoClass } from "./mongo.js";
 import { VoiceHandlerClass } from "./voice.js";
 export class Commands {
     //constructor(client: Client)
@@ -6,13 +7,15 @@ export class Commands {
         this.c = c;
         this.voiceHandler = new VoiceHandlerClass();
         this.botCommandsMap = new Map();
+        this.mongo = new MongoClass();
         this.botCommandsMap.set("bagge", this.bonkCommand.bind(this));
-        this.botCommandsMap.set("ea", this.randomLizard);
+        this.botCommandsMap.set("ea", this.randomLizard.bind(this));
         this.botCommandsMap.set("smartcast", this.smartcastCommand);
-        this.botCommandsMap.set("e", this.pandaCommand);
+        this.botCommandsMap.set("e", this.pandaCommand.bind(this));
         this.botCommandsMap.set("fie", this.fieCommand);
         this.botCommandsMap.set(".bot", this.dotBotCommand);
         this.botCommandsMap.set("terminator", this.terminateCommand);
+        this.botCommandsMap.set("!leaderboard", this.printCommands.bind(this));
     }
     // Function to return the map
     getBotCommandsMap() {
@@ -22,7 +25,6 @@ export class Commands {
         const bonkEmbed = new EmbedBuilder().setImage("https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif");
         messageCreate.channel.send({ embeds: [bonkEmbed] });
         const guild = this.c.guilds.cache.get(messageCreate.guildId);
-        //console.log(guild);
         this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
         this.voiceHandler.playSound("bonkCartoon.mp3");
         this.voiceHandler.VoicedestroyConnection();
@@ -41,10 +43,18 @@ export class Commands {
             const lizardEmbed3 = new EmbedBuilder().setImage("https://media.tenor.com/TGUcc-bbevAAAAAC/lizard-cute.gif");
             messageCreate.channel.send({ embeds: [lizardEmbed3] });
         }
+        const guild = this.c.guilds.cache.get(messageCreate.guildId);
+        this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
+        this.voiceHandler.playSound("Illuminati.mp3");
+        this.voiceHandler.VoicedestroyConnection();
     }
     pandaCommand(messageCreate) {
         const panda = new EmbedBuilder().setImage("https://media.tenor.com/v0zpv4iRa7IAAAAC/panda-lazy.gif");
         messageCreate.channel.send({ embeds: [panda] });
+        const guild = this.c.guilds.cache.get(messageCreate.guildId);
+        this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
+        this.voiceHandler.playSound("pandaPanda.mp3");
+        this.voiceHandler.VoicedestroyConnection();
     }
     fieCommand(messageCreate) {
         const Fie = new EmbedBuilder().setImage("https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif");
@@ -61,6 +71,23 @@ export class Commands {
     terminateCommand(messageCreate) {
         const termniator = "issolate, terminate";
         messageCreate.channel.send(termniator);
+    }
+    /* function to check if messageCreate is equal to a key in the map
+    checkIfCommand(messageCreate: Message) {
+      if (this.botCommandsMap.has(messageCreate.content)) {
+        return true;
+      }
+      return false;
+    }
+  */
+    // Function to print out the commands that have been used in a server
+    async printCommands(messageCreate) {
+        if (messageCreate.content.toLocaleLowerCase() === "!leaderboard") {
+            const database = this.mongo.client.db("discord");
+            const collectionDb = database.collection("commands");
+            const result = await collectionDb.find().toArray();
+            console.log(result);
+        }
     }
 }
 //# sourceMappingURL=commands.js.map

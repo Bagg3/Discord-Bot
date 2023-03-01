@@ -61,12 +61,14 @@ export class VoiceHandlerClass {
     this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
       console.log("The audio player has started playing!");
     });
-
+    /*
     if (subscription) {
       // Unsubscribe after 5 seconds (stop playing audio on the voice connection)
       setTimeout(() => subscription.unsubscribe(), 5_000);
       console.log("Unsubscribed after 5 seconds");
     }
+
+    */
   }
 
   makeAudioPlayer() {

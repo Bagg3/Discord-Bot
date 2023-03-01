@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 export class MongoClass {
-  private client: MongoClient;
+  public client: MongoClient;
 
   constructor() {
     this.client = this.connectionDb();
@@ -22,10 +22,12 @@ export class MongoClass {
       const database = this.client.db("discord");
       const collectionDb = database.collection(collection);
       const result = await collectionDb.insertOne(data);
-      console.log(result);
+      //console.log(result);
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
+
+  //Function to check if the message is a command and if it is get the auther id and add it to the database
 }
