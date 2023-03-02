@@ -56,8 +56,8 @@ export class ClientClass {
     if (
       botCommandsMap2.has(message) &&
       message != "!leaderboard" &&
-      message != ".bot" /*&&
-      messageCreate.guildId != "1075453467742711899"*/
+      message != ".bot" &&
+      messageCreate.guildId != "1075453467742711899"
     ) {
       const count = await this.getCount(messageCreate, message);
       if (count == 0) {
@@ -70,9 +70,9 @@ export class ClientClass {
         await this.mongo.insertData(data, "commands");
         return;
       }
+      this.updateCount(messageCreate, message);
+      console.log("Updated count");
     }
-    this.updateCount(messageCreate, message);
-    console.log("Updated count");
   }
 
   onMessageCreate(messageCreate: Message): Promise<void> {

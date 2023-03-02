@@ -41,8 +41,8 @@ export class ClientClass {
         const botCommandsMap2 = this.botCommands.getBotCommandsMap();
         if (botCommandsMap2.has(message) &&
             message != "!leaderboard" &&
-            message != ".bot" /*&&
-        messageCreate.guildId != "1075453467742711899"*/) {
+            message != ".bot" &&
+            messageCreate.guildId != "1075453467742711899") {
             const count = await this.getCount(messageCreate, message);
             if (count == 0) {
                 console.log("New command registered");
@@ -54,9 +54,9 @@ export class ClientClass {
                 await this.mongo.insertData(data, "commands");
                 return;
             }
+            this.updateCount(messageCreate, message);
+            console.log("Updated count");
         }
-        this.updateCount(messageCreate, message);
-        console.log("Updated count");
     }
     onMessageCreate(messageCreate) {
         // Checks if the message is good

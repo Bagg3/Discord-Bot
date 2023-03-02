@@ -1,6 +1,8 @@
 import { EmbedBuilder, Message, Client } from "discord.js";
 import { MongoClass } from "./mongo.js";
 import { VoiceHandlerClass } from "./voice.js";
+import { terminateCommand } from "./funtions.js";
+
 export class Commands {
   botCommandsMap: Map<string, Function>;
   voiceHandler: VoiceHandlerClass;
@@ -16,7 +18,7 @@ export class Commands {
     this.botCommandsMap.set("e", this.pandaCommand.bind(this));
     this.botCommandsMap.set("fie", this.fieCommand);
     this.botCommandsMap.set(".bot", this.dotBotCommand);
-    this.botCommandsMap.set("terminator", this.terminateCommand);
+    this.botCommandsMap.set("terminator", terminateCommand);
     this.botCommandsMap.set("!leaderboard", this.printCommands.bind(this));
   }
 
@@ -110,27 +112,28 @@ export class Commands {
     messageCreate.channel.send(viktor);
   }
 
-  terminateCommand(messageCreate: Message) {
-    const termniator = "issolate, terminate";
-    messageCreate.channel.send(termniator);
-  }
-
   //Function to agregate the commands in the database
   async agregateCommands(messageCreate: Message) {
     const database = this.mongo.client.db("discord");
     const collectionDb = database.collection("commands");
-    const res = collectionDb.aggregate([
-      { $group: { id_: "$name", count: { $sum: 1 } } },
-    ]);
+
+    const pipeline = [
+      { $group: { _id: "$name", count: { $sum: "$count" } } },
+      { $sort: { count: -1 } },
+    ];
+    const res = collectionDb.aggregate(pipeline);
+
+    for await (const doc of res) {
+      messageCreate.channel.send(doc._id + " " + doc.count);
+      console.log(doc);
+    }
   }
 
   // Function to print out the commands that have been used in a server
   async printCommands(messageCreate: Message) {
     if (messageCreate.content.toLocaleLowerCase() === "!leaderboard") {
-      const database = this.mongo.client.db("discord");
-      const collectionDb = database.collection("commands");
-      const result = await collectionDb.find().toArray();
-      console.log(result);
+      messageCreate.channel.send("The command leaderboard is:");
+      this.agregateCommands(messageCreate);
     }
   }
 }
