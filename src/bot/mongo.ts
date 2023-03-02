@@ -28,6 +28,4 @@ export class MongoClass {
       throw error;
     }
   }
-
-  //Function to check if the message is a command and if it is get the auther id and add it to the database
 }

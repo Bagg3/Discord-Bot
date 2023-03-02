@@ -2,7 +2,6 @@ import { EmbedBuilder } from "discord.js";
 import { MongoClass } from "./mongo.js";
 import { VoiceHandlerClass } from "./voice.js";
 export class Commands {
-    //constructor(client: Client)
     constructor(c) {
         this.c = c;
         this.voiceHandler = new VoiceHandlerClass();
@@ -72,14 +71,6 @@ export class Commands {
         const termniator = "issolate, terminate";
         messageCreate.channel.send(termniator);
     }
-    /* function to check if messageCreate is equal to a key in the map
-    checkIfCommand(messageCreate: Message) {
-      if (this.botCommandsMap.has(messageCreate.content)) {
-        return true;
-      }
-      return false;
-    }
-  */
     //Function to agregate the commands in the database
     async agregateCommands(messageCreate) {
         const database = this.mongo.client.db("discord");

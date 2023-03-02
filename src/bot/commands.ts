@@ -6,8 +6,6 @@ export class Commands {
   voiceHandler: VoiceHandlerClass;
   mongo: MongoClass;
 
-  //constructor(client: Client)
-
   constructor(private c: Client) {
     this.voiceHandler = new VoiceHandlerClass();
     this.botCommandsMap = new Map();
@@ -116,15 +114,6 @@ export class Commands {
     const termniator = "issolate, terminate";
     messageCreate.channel.send(termniator);
   }
-
-  /* function to check if messageCreate is equal to a key in the map
-  checkIfCommand(messageCreate: Message) {
-    if (this.botCommandsMap.has(messageCreate.content)) {
-      return true;
-    }
-    return false;
-  }
-*/
 
   //Function to agregate the commands in the database
   async agregateCommands(messageCreate: Message) {

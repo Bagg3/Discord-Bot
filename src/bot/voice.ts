@@ -10,17 +10,11 @@ import {
   AudioPlayer,
 } from "@discordjs/voice";
 
-// Import discord.js dependencies
-//import { clientClass } from "./client.js";
 export class VoiceHandlerClass {
-  //client: clientClass;
   connection: VoiceConnection;
   audioPlayer: AudioPlayer;
 
-  // Make a client object from the bot class
-  constructor() {
-    //this.client = client;
-  }
+  constructor() {}
 
   // Function to join a voice channel
   public JoinVoiceChannel(channelID: string, guildID: string, guilds: any) {
@@ -53,7 +47,6 @@ export class VoiceHandlerClass {
   playSound(soundRef: string) {
     this.audioPlayer = createAudioPlayer();
     const subscription = this.connection.subscribe(this.audioPlayer);
-    //const bonkSound = createAudioResource("Bonk.mp3");
     const sound = createAudioResource(soundRef);
 
     this.audioPlayer.play(sound);
@@ -61,14 +54,6 @@ export class VoiceHandlerClass {
     this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
       console.log("The audio player has started playing!");
     });
-    /*
-    if (subscription) {
-      // Unsubscribe after 5 seconds (stop playing audio on the voice connection)
-      setTimeout(() => subscription.unsubscribe(), 5_000);
-      console.log("Unsubscribed after 5 seconds");
-    }
-
-    */
   }
 
   makeAudioPlayer() {
