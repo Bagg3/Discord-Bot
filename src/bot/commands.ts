@@ -41,7 +41,7 @@ export class Commands {
       guild
     );
     this.voiceHandler.playSound("bonkCartoon.mp3");
-    this.voiceHandler.VoicedestroyConnection();
+    this.voiceHandler.VoiceDestroyConnection();
   }
 
   randomLizard(messageCreate: any) {
@@ -73,7 +73,7 @@ export class Commands {
       guild
     );
     this.voiceHandler.playSound("Illuminati.mp3");
-    this.voiceHandler.VoicedestroyConnection();
+    this.voiceHandler.VoiceDestroyConnection();
   }
 
   pandaCommand(messageCreate: Message) {
@@ -90,7 +90,7 @@ export class Commands {
       guild
     );
     this.voiceHandler.playSound("pandaPanda.mp3");
-    this.voiceHandler.VoicedestroyConnection();
+    this.voiceHandler.VoiceDestroyConnection();
   }
 
   fieCommand(messageCreate: Message) {
@@ -125,6 +125,15 @@ export class Commands {
     return false;
   }
 */
+
+  //Function to agregate the commands in the database
+  async agregateCommands(messageCreate: Message) {
+    const database = this.mongo.client.db("discord");
+    const collectionDb = database.collection("commands");
+    const res = collectionDb.aggregate([
+      { $group: { id_: "$name", count: { $sum: 1 } } },
+    ]);
+  }
 
   // Function to print out the commands that have been used in a server
   async printCommands(messageCreate: Message) {

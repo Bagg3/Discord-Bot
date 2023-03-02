@@ -48,7 +48,7 @@ export class VoiceHandlerClass {
     makeAudioPlayer() {
         this.audioPlayer = createAudioPlayer();
     }
-    VoicedestroyConnection() {
+    VoiceDestroyConnection() {
         this.audioPlayer.on("stateChange", (oldState, newState) => {
             if (newState.status === AudioPlayerStatus.Idle) {
                 this.connection.destroy();

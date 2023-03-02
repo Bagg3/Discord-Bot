@@ -27,7 +27,7 @@ export class Commands {
         const guild = this.c.guilds.cache.get(messageCreate.guildId);
         this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
         this.voiceHandler.playSound("bonkCartoon.mp3");
-        this.voiceHandler.VoicedestroyConnection();
+        this.voiceHandler.VoiceDestroyConnection();
     }
     randomLizard(messageCreate) {
         const randomLizard = Math.floor(Math.random() * 3) + 1;
@@ -46,7 +46,7 @@ export class Commands {
         const guild = this.c.guilds.cache.get(messageCreate.guildId);
         this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
         this.voiceHandler.playSound("Illuminati.mp3");
-        this.voiceHandler.VoicedestroyConnection();
+        this.voiceHandler.VoiceDestroyConnection();
     }
     pandaCommand(messageCreate) {
         const panda = new EmbedBuilder().setImage("https://media.tenor.com/v0zpv4iRa7IAAAAC/panda-lazy.gif");
@@ -54,7 +54,7 @@ export class Commands {
         const guild = this.c.guilds.cache.get(messageCreate.guildId);
         this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
         this.voiceHandler.playSound("pandaPanda.mp3");
-        this.voiceHandler.VoicedestroyConnection();
+        this.voiceHandler.VoiceDestroyConnection();
     }
     fieCommand(messageCreate) {
         const Fie = new EmbedBuilder().setImage("https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif");
@@ -80,6 +80,14 @@ export class Commands {
       return false;
     }
   */
+    //Function to agregate the commands in the database
+    async agregateCommands(messageCreate) {
+        const database = this.mongo.client.db("discord");
+        const collectionDb = database.collection("commands");
+        const res = collectionDb.aggregate([
+            { $group: { id_: "$name", count: { $sum: 1 } } },
+        ]);
+    }
     // Function to print out the commands that have been used in a server
     async printCommands(messageCreate) {
         if (messageCreate.content.toLocaleLowerCase() === "!leaderboard") {
