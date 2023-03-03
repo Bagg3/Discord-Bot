@@ -5,6 +5,8 @@ export class MongoClass {
     }
     connectionDb() {
         try {
+            if (!process.env.MONGO_URI)
+                throw new Error("No mongo uri found");
             const client = new MongoClient(process.env.MONGO_URI);
             return client;
         }

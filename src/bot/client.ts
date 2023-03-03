@@ -26,6 +26,8 @@ export class ClientClass {
   }
 
   loginClient() {
+    if (!process.env.TOKEN) throw new Error("No token found");
+
     const token: string = process.env.TOKEN;
 
     this.client.once(Events.ClientReady, (c) => {

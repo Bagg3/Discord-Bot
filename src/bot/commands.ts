@@ -3,12 +3,11 @@ import { MongoClass } from "./mongo.js";
 import { VoiceHandlerClass } from "./voice.js";
 import {
   terminateCommand,
-  bonkCommand,
-  randomLizard,
+  makeRandomLizard,
   fieCommand,
   dotBotCommand,
   smartcastCommand,
-  pandaCommand,
+  makePandaCommand,
   printCommands,
   makeBonkCommand,
 } from "./funtions.js";
@@ -23,9 +22,9 @@ export class Commands {
     this.botCommandsMap = new Map();
     this.mongo = new MongoClass();
     this.botCommandsMap.set("bagge", makeBonkCommand(c, this.voiceHandler));
-    this.botCommandsMap.set("ea", randomLizard.bind(this));
+    this.botCommandsMap.set("ea", makeRandomLizard(c, this.voiceHandler));
     this.botCommandsMap.set("smartcast", smartcastCommand);
-    this.botCommandsMap.set("e", pandaCommand.bind(this));
+    this.botCommandsMap.set("e", makePandaCommand());
     this.botCommandsMap.set("fie", fieCommand);
     this.botCommandsMap.set(".bot", dotBotCommand);
     this.botCommandsMap.set("terminator", terminateCommand);

@@ -19,6 +19,8 @@ export class ClientClass {
         this.mongo = new MongoClass();
     }
     loginClient() {
+        if (!process.env.TOKEN)
+            throw new Error("No token found");
         const token = process.env.TOKEN;
         this.client.once(Events.ClientReady, (c) => {
             console.log(`Ready! Logged in as ${c.user.tag}`);

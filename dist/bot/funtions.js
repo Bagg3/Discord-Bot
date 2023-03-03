@@ -17,32 +17,36 @@ export function makeBonkCommand(client, voiceHandler) {
         voiceHandler.VoiceDestroyConnection();
     };
 }
-export function randomLizard(messageCreate) {
-    const randomLizard = Math.floor(Math.random() * 3) + 1;
-    if (randomLizard === 1) {
-        const lizardEmbed = new EmbedBuilder().setImage("https://media.tenor.com/xTyVDYFg_fsAAAAC/lizard-hehe.gif");
-        messageCreate.channel.send({ embeds: [lizardEmbed] });
-    }
-    if (randomLizard === 2) {
-        const lizardEmbed2 = new EmbedBuilder().setImage("https://media.tenor.com/msH3gTNQpwsAAAAd/lizards-chair-funny-animals.gif");
-        messageCreate.channel.send({ embeds: [lizardEmbed2] });
-    }
-    if (randomLizard === 3) {
-        const lizardEmbed3 = new EmbedBuilder().setImage("https://media.tenor.com/TGUcc-bbevAAAAAC/lizard-cute.gif");
-        messageCreate.channel.send({ embeds: [lizardEmbed3] });
-    }
-    const guild = this.c.guilds.cache.get(messageCreate.guildId);
-    this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
-    this.voiceHandler.playSound("Illuminati.mp3");
-    this.voiceHandler.VoiceDestroyConnection();
+export function makeRandomLizard(client, voiceHandler) {
+    return (messageCreate) => {
+        const randomLizard = Math.floor(Math.random() * 3) + 1;
+        if (randomLizard === 1) {
+            const lizardEmbed = new EmbedBuilder().setImage("https://media.tenor.com/xTyVDYFg_fsAAAAC/lizard-hehe.gif");
+            messageCreate.channel.send({ embeds: [lizardEmbed] });
+        }
+        if (randomLizard === 2) {
+            const lizardEmbed2 = new EmbedBuilder().setImage("https://media.tenor.com/msH3gTNQpwsAAAAd/lizards-chair-funny-animals.gif");
+            messageCreate.channel.send({ embeds: [lizardEmbed2] });
+        }
+        if (randomLizard === 3) {
+            const lizardEmbed3 = new EmbedBuilder().setImage("https://media.tenor.com/TGUcc-bbevAAAAAC/lizard-cute.gif");
+            messageCreate.channel.send({ embeds: [lizardEmbed3] });
+        }
+        if (!messageCreate.guildId) {
+            // Handle the error
+            return;
+        }
+        const guild = client.guilds.cache.get(messageCreate.guildId);
+        voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
+        voiceHandler.playSound("Illuminati.mp3");
+        voiceHandler.VoiceDestroyConnection();
+    };
 }
-export function pandaCommand(messageCreate) {
-    const panda = new EmbedBuilder().setImage("https://media.tenor.com/v0zpv4iRa7IAAAAC/panda-lazy.gif");
-    messageCreate.channel.send({ embeds: [panda] });
-    const guild = this.c.guilds.cache.get(messageCreate.guildId);
-    this.voiceHandler.JoinVoiceChannel(messageCreate.channelId, messageCreate.guildId, guild);
-    this.voiceHandler.playSound("pandaPanda.mp3");
-    this.voiceHandler.VoiceDestroyConnection();
+export function makePandaCommand() {
+    return (messageCreate) => {
+        const panda = new EmbedBuilder().setImage("https://media.tenor.com/v0zpv4iRa7IAAAAC/panda-lazy.gif");
+        messageCreate.channel.send({ embeds: [panda] });
+    };
 }
 export function fieCommand(messageCreate) {
     const Fie = new EmbedBuilder().setImage("https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif");
