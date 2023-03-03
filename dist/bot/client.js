@@ -72,23 +72,21 @@ export class ClientClass {
         const botCommandsMap = this.botCommands.getBotCommandsMap();
         if (botCommandsMap.has(message)) {
             const command = botCommandsMap.get(message);
-            command(messageCreate);
+            if (command)
+                command(messageCreate);
         }
     }
     // Function to import the value of count from database by searching for command name and author name
     async getCount(messageCreate, message) {
         const database = this.mongo.client.db("discord");
         const collectionDb = database.collection("commands");
-        try {
-            const result = await collectionDb.findOne({
-                name: messageCreate.author.username,
-                command: message,
-            });
-            return result.count;
-        }
-        catch (error) {
+        const result = await collectionDb.findOne({
+            name: messageCreate.author.username,
+            command: message,
+        });
+        if (!result)
             return 0;
-        }
+        return result.count;
     }
     // Function to update the value of count from database by searching for command name and author name
     async updateCount(messageCreate, message) {

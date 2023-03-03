@@ -1,8 +1,4 @@
 import { EmbedBuilder } from "discord.js";
-export function terminateCommand(messageCreate) {
-    const termniator = "issolate, terminate";
-    messageCreate.channel.send(termniator);
-}
 export function makeBonkCommand(client, voiceHandler) {
     return (messageCreate) => {
         const bonkEmbed = new EmbedBuilder().setImage("https://c.tenor.com/yHX61qy92nkAAAAC/yoshi-mario.gif");
@@ -48,25 +44,33 @@ export function makePandaCommand() {
         messageCreate.channel.send({ embeds: [panda] });
     };
 }
-export function fieCommand(messageCreate) {
-    const Fie = new EmbedBuilder().setImage("https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif");
-    messageCreate.channel.send({ embeds: [Fie] });
+export function makeFieCommand() {
+    return (messageCreate) => {
+        const Fie = new EmbedBuilder().setImage("https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif");
+        messageCreate.channel.send({ embeds: [Fie] });
+    };
 }
-export function dotBotCommand(messageCreate) {
-    const dotBotCommands = "Type 'bagge' to get a bonk gif\nType 'EA' to get a random lizard gif\nType 'smartcast' for glorious evolution\nType 'E' for Panda\nType 'Fie' for Fie\n";
-    messageCreate.channel.send(dotBotCommands);
+export function makeDotBotCommand() {
+    return (messageCreate) => {
+        const dotBotCommands = "Type 'bagge' to get a bonk gif\nType 'EA' to get a random lizard gif\nType 'smartcast' for glorious evolution\nType 'E' for Panda\nType 'Fie' for Fie\n";
+        messageCreate.channel.send(dotBotCommands);
+    };
 }
-export function smartcastCommand(messageCreate) {
-    const viktor = "https://img-9gag-fun.9cache.com/photo/a91WvPm_460s.jpg";
-    messageCreate.channel.send(viktor);
+export function makeSmartcastCommand() {
+    return (messageCreate) => {
+        const viktor = "https://img-9gag-fun.9cache.com/photo/a91WvPm_460s.jpg";
+        messageCreate.channel.send(viktor);
+    };
 }
 // Function to print out the commands that have been used in a server
-export async function printCommands(messageCreate) {
-    messageCreate.channel.send("The command leaderboard is:");
-    agregateCommands(messageCreate);
+export function makePrintCommands(mongo) {
+    return (messageCreate) => {
+        messageCreate.channel.send("The command leaderboard is:");
+        agregateCommands(messageCreate, mongo);
+    };
 }
-async function agregateCommands(messageCreate) {
-    const database = this.mongo.client.db("discord");
+async function agregateCommands(messageCreate, mongo) {
+    const database = mongo.client.db("discord");
     const collectionDb = database.collection("commands");
     const pipeline = [
         { $group: { _id: "$name", count: { $sum: "$count" } } },

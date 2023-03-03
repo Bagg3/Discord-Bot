@@ -11,8 +11,8 @@ import {
 } from "@discordjs/voice";
 
 export class VoiceHandlerClass {
-  connection: VoiceConnection;
-  audioPlayer: AudioPlayer;
+  connection!: VoiceConnection;
+  audioPlayer!: AudioPlayer;
 
   constructor() {}
 

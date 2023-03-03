@@ -2,11 +2,7 @@ import { Client, Message } from "discord.js";
 import { EmbedBuilder } from "discord.js";
 import { ClientClass } from "./client.js";
 import { VoiceHandlerClass } from "./voice.js";
-
-export function terminateCommand(messageCreate: Message) {
-  const termniator = "issolate, terminate";
-  messageCreate.channel.send(termniator);
-}
+import { MongoClass } from "./mongo.js";
 
 export function makeBonkCommand(
   client: Client,
@@ -82,33 +78,41 @@ export function makePandaCommand() {
   };
 }
 
-export function fieCommand(messageCreate: Message) {
-  const Fie = new EmbedBuilder().setImage(
-    "https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif"
-  );
-  messageCreate.channel.send({ embeds: [Fie] });
+export function makeFieCommand() {
+  return (messageCreate: Message) => {
+    const Fie = new EmbedBuilder().setImage(
+      "https://media.tenor.com/6tlB3xGf1AoAAAAC/cat-white.gif"
+    );
+    messageCreate.channel.send({ embeds: [Fie] });
+  };
 }
 
-export function dotBotCommand(messageCreate: Message) {
-  const dotBotCommands: string =
-    "Type 'bagge' to get a bonk gif\nType 'EA' to get a random lizard gif\nType 'smartcast' for glorious evolution\nType 'E' for Panda\nType 'Fie' for Fie\n";
-  messageCreate.channel.send(dotBotCommands);
+export function makeDotBotCommand() {
+  return (messageCreate: Message) => {
+    const dotBotCommands: string =
+      "Type 'bagge' to get a bonk gif\nType 'EA' to get a random lizard gif\nType 'smartcast' for glorious evolution\nType 'E' for Panda\nType 'Fie' for Fie\n";
+    messageCreate.channel.send(dotBotCommands);
+  };
 }
 
-export function smartcastCommand(messageCreate: Message) {
-  const viktor: string =
-    "https://img-9gag-fun.9cache.com/photo/a91WvPm_460s.jpg";
-  messageCreate.channel.send(viktor);
+export function makeSmartcastCommand() {
+  return (messageCreate: Message) => {
+    const viktor: string =
+      "https://img-9gag-fun.9cache.com/photo/a91WvPm_460s.jpg";
+    messageCreate.channel.send(viktor);
+  };
 }
 
 // Function to print out the commands that have been used in a server
-export async function printCommands(messageCreate: Message) {
-  messageCreate.channel.send("The command leaderboard is:");
-  agregateCommands(messageCreate);
+export function makePrintCommands(mongo: MongoClass) {
+  return (messageCreate: Message) => {
+    messageCreate.channel.send("The command leaderboard is:");
+    agregateCommands(messageCreate, mongo);
+  };
 }
 
-async function agregateCommands(messageCreate: Message) {
-  const database = this.mongo.client.db("discord");
+async function agregateCommands(messageCreate: Message, mongo: MongoClass) {
+  const database = mongo.client.db("discord");
   const collectionDb = database.collection("commands");
 
   const pipeline = [

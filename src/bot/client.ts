@@ -77,7 +77,7 @@ export class ClientClass {
     }
   }
 
-  onMessageCreate(messageCreate: Message): Promise<void> {
+  onMessageCreate(messageCreate: Message) {
     // Checks if the message is good
     const check = this.checkIfmessageIsgood(messageCreate);
     if (!check) {
@@ -91,7 +91,7 @@ export class ClientClass {
     const botCommandsMap = this.botCommands.getBotCommandsMap();
     if (botCommandsMap.has(message)) {
       const command = botCommandsMap.get(message);
-      command(messageCreate);
+      if (command) command(messageCreate);
     }
   }
 
@@ -99,15 +99,13 @@ export class ClientClass {
   async getCount(messageCreate: Message, message: string) {
     const database = this.mongo.client.db("discord");
     const collectionDb = database.collection("commands");
-    try {
-      const result = await collectionDb.findOne({
-        name: messageCreate.author.username,
-        command: message,
-      });
-      return result.count;
-    } catch (error) {
-      return 0;
-    }
+
+    const result = await collectionDb.findOne({
+      name: messageCreate.author.username,
+      command: message,
+    });
+    if (!result) return 0;
+    return result.count;
   }
 
   // Function to update the value of count from database by searching for command name and author name
