@@ -24,6 +24,8 @@ export class VoiceHandlerClass {
     }
     playSound(soundRef) {
         this.audioPlayer = createAudioPlayer();
+        if (!this.connection)
+            throw new Error("No connection found");
         const subscription = this.connection.subscribe(this.audioPlayer);
         const sound = createAudioResource(soundRef);
         this.audioPlayer.play(sound);
@@ -35,8 +37,12 @@ export class VoiceHandlerClass {
         this.audioPlayer = createAudioPlayer();
     }
     VoiceDestroyConnection() {
+        if (!this.audioPlayer)
+            throw new Error("No connection found");
         this.audioPlayer.on("stateChange", (oldState, newState) => {
             if (newState.status === AudioPlayerStatus.Idle) {
+                if (!this.connection)
+                    throw new Error("No connection found");
                 this.connection.destroy();
             }
         });

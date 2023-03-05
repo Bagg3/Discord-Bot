@@ -11,8 +11,8 @@ import {
 } from "@discordjs/voice";
 
 export class VoiceHandlerClass {
-  connection!: VoiceConnection;
-  audioPlayer!: AudioPlayer;
+  connection?: VoiceConnection;
+  audioPlayer?: AudioPlayer;
 
   constructor() {}
 
@@ -46,6 +46,8 @@ export class VoiceHandlerClass {
 
   playSound(soundRef: string) {
     this.audioPlayer = createAudioPlayer();
+
+    if (!this.connection) throw new Error("No connection found");
     const subscription = this.connection.subscribe(this.audioPlayer);
     const sound = createAudioResource(soundRef);
 
@@ -61,8 +63,10 @@ export class VoiceHandlerClass {
   }
 
   VoiceDestroyConnection() {
+    if (!this.audioPlayer) throw new Error("No connection found");
     this.audioPlayer.on("stateChange" as any, (oldState, newState) => {
       if (newState.status === AudioPlayerStatus.Idle) {
+        if (!this.connection) throw new Error("No connection found");
         this.connection.destroy();
       }
     });
