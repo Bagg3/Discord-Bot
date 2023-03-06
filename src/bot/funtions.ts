@@ -144,7 +144,9 @@ async function agregateUsernameLeaderboard(
   const database = mongo.client.db("discord");
   const collectionDb = database.collection("commands");
 
-  const pipeline = [{ $match: { _id: "$name" } }, { $sort: { count: -1 } }];
+  const username = messageCreate.author.username;
+
+  const pipeline = [{ $match: { name: username } }, { $sort: { count: -1 } }];
   const res = collectionDb.aggregate(pipeline);
 
   for await (const doc of res) {
