@@ -107,11 +107,14 @@ export function makeSmartcastCommand() {
 export function makePrintCommands(mongo: MongoClass) {
   return (messageCreate: Message) => {
     messageCreate.channel.send("The command leaderboard is:");
-    agregateCommands(messageCreate, mongo);
+    agregateCommandsLeaderboard(messageCreate, mongo);
   };
 }
 
-async function agregateCommands(messageCreate: Message, mongo: MongoClass) {
+async function agregateCommandsLeaderboard(
+  messageCreate: Message,
+  mongo: MongoClass
+) {
   const database = mongo.client.db("discord");
   const collectionDb = database.collection("commands");
 
@@ -119,6 +122,29 @@ async function agregateCommands(messageCreate: Message, mongo: MongoClass) {
     { $group: { _id: "$name", count: { $sum: "$count" } } },
     { $sort: { count: -1 } },
   ];
+  const res = collectionDb.aggregate(pipeline);
+
+  for await (const doc of res) {
+    messageCreate.channel.send(doc._id + " " + doc.count);
+    console.log(doc);
+  }
+}
+
+export function makeUsernameStatus(mongo: MongoClass) {
+  return (messageCreate: Message) => {
+    messageCreate.channel.send("The users must used commands are:");
+    agregateUsernameLeaderboard(messageCreate, mongo);
+  };
+}
+
+async function agregateUsernameLeaderboard(
+  messageCreate: Message,
+  mongo: MongoClass
+) {
+  const database = mongo.client.db("discord");
+  const collectionDb = database.collection("commands");
+
+  const pipeline = [{ $match: { _id: "$name" } }, { $sort: { count: -1 } }];
   const res = collectionDb.aggregate(pipeline);
 
   for await (const doc of res) {
