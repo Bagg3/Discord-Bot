@@ -137,6 +137,10 @@ export function makeUsernameStatus(mongo: MongoClass) {
   };
 }
 
+function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 async function agregateUsernameLeaderboard(
   messageCreate: Message,
   mongo: MongoClass
@@ -150,7 +154,8 @@ async function agregateUsernameLeaderboard(
   const res = collectionDb.aggregate(pipeline);
 
   for await (const doc of res) {
-    messageCreate.channel.send(doc._id + " " + doc.count);
+    const command = capitalizeFirstLetter(doc.command);
+    messageCreate.channel.send(command + ": " + doc.count);
     console.log(doc);
   }
 }

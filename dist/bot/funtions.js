@@ -88,6 +88,9 @@ export function makeUsernameStatus(mongo) {
         agregateUsernameLeaderboard(messageCreate, mongo);
     };
 }
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 async function agregateUsernameLeaderboard(messageCreate, mongo) {
     const database = mongo.client.db("discord");
     const collectionDb = database.collection("commands");
@@ -95,7 +98,8 @@ async function agregateUsernameLeaderboard(messageCreate, mongo) {
     const pipeline = [{ $match: { name: username } }, { $sort: { count: -1 } }];
     const res = collectionDb.aggregate(pipeline);
     for await (const doc of res) {
-        messageCreate.channel.send(doc._id + " " + doc.count);
+        const command = capitalizeFirstLetter(doc.command);
+        messageCreate.channel.send(command + ": " + doc.count);
         console.log(doc);
     }
 }

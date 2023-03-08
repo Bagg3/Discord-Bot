@@ -9,8 +9,8 @@ import {
   makePandaCommand,
   makePrintCommands,
   makeBonkCommand,
+  makeUsernameStatus,
 } from "./funtions.js";
-import { ClientClass } from "./client.js";
 
 export class Commands {
   botCommandsMap: Map<string, Function>;
@@ -29,6 +29,7 @@ export class Commands {
       ["fie", makeFieCommand()],
       [".bot", makeDotBotCommand()],
       ["!leaderboard", makePrintCommands(this.mongo)],
+      ["!me", makeUsernameStatus(this.mongo)],
     ]);
   }
 

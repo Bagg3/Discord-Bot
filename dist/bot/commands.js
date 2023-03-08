@@ -1,6 +1,6 @@
 import { MongoClass } from "./mongo.js";
 import { VoiceHandlerClass } from "./voice.js";
-import { makeRandomLizard, makeFieCommand, makeDotBotCommand, makeSmartcastCommand, makePandaCommand, makePrintCommands, makeBonkCommand, } from "./funtions.js";
+import { makeRandomLizard, makeFieCommand, makeDotBotCommand, makeSmartcastCommand, makePandaCommand, makePrintCommands, makeBonkCommand, makeUsernameStatus, } from "./funtions.js";
 export class Commands {
     constructor(client) {
         this.voiceHandler = new VoiceHandlerClass();
@@ -13,6 +13,7 @@ export class Commands {
             ["fie", makeFieCommand()],
             [".bot", makeDotBotCommand()],
             ["!leaderboard", makePrintCommands(this.mongo)],
+            ["!me", makeUsernameStatus(this.mongo)],
         ]);
     }
     // Function to return the map
