@@ -33,9 +33,6 @@ export class VoiceHandlerClass {
             console.log("The audio player has started playing!");
         });
     }
-    makeAudioPlayer() {
-        this.audioPlayer = createAudioPlayer();
-    }
     VoiceDestroyConnection() {
         if (!this.audioPlayer)
             throw new Error("No connection found");

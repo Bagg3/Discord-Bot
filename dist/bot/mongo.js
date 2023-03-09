@@ -20,7 +20,6 @@ export class MongoClass {
             const database = this.client.db("discord");
             const collectionDb = database.collection(collection);
             const result = await collectionDb.insertOne(data);
-            //console.log(result);
         }
         catch (error) {
             console.log(error);

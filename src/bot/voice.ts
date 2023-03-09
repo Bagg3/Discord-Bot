@@ -58,10 +58,6 @@ export class VoiceHandlerClass {
     });
   }
 
-  makeAudioPlayer() {
-    this.audioPlayer = createAudioPlayer();
-  }
-
   VoiceDestroyConnection() {
     if (!this.audioPlayer) throw new Error("No connection found");
     this.audioPlayer.on("stateChange" as any, (oldState, newState) => {
