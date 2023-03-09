@@ -21,6 +21,7 @@
   },
   "description": "",
   "devDependencies": {
+    "@types/xml2js": "^0.4.11",
     "tsc-watch": "^6.0.0"
   }
 }

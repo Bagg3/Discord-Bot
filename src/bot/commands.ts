@@ -11,6 +11,7 @@ import {
   makeBonkCommand,
   makeUsernameStatus,
   makeDateCommand,
+  makeFridayCommand,
 } from "./funtions.js";
 
 export class Commands {
@@ -31,7 +32,9 @@ export class Commands {
       [".bot", makeDotBotCommand()],
       ["!leaderboard", makePrintCommands(this.mongo)],
       ["!me", makeUsernameStatus(this.mongo)],
-      ["!date", makeDateCommand()],
+      ["!friday", makeFridayCommand()],
+      //["!bible", makeBibleVerse()], Removed due its not used atm
+      //["!date", makeDateCommand()], Removed due its not used atm
     ]);
   }
 

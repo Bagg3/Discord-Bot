@@ -108,27 +108,42 @@ export function makeDateCommand() {
         getDate();
     };
 }
+export function makeFridayCommand() {
+    return (messageCreate) => {
+        getFriday(messageCreate);
+    };
+}
+function getFriday(messageCreate) {
+    const d = new Date();
+    if (d.getDate() == 5) {
+        messageCreate.channel.send("It is friday");
+    }
+    else {
+        messageCreate.channel.send("It is not friday 😭");
+    }
+}
 function getDate() {
     const d = new Date();
     const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-    console.log(date);
-    console.log(d.getDay());
-    for (let i = 0; i < 5; i++) {
-        const n = new Date(d);
-        n.setDate(n.getDate() - i);
-        const prior = n.getFullYear() + "-" + (n.getMonth() + 1) + "-" + n.getDate();
-        console.log(prior);
-    }
+    console.log(printDate(d.getDay()));
 }
 //Function that decides wether or not friday or monday should be the basis
-function chooseDay() {
-    const day = new Date().getDay() - 1;
-    // within certain intervals you gotta choose data from the previous week
-    if (day >= 0 && day <= 3) {
-        return "Monday";
-    }
-    if (day >= 4 && day <= 6) {
-        return "Friday";
+function printDate(jsDate) {
+    switch (jsDate) {
+        case 0:
+            return "Sunday";
+        case 1:
+            return "Monday";
+        case 2:
+            return "Tuesday";
+        case 3:
+            return "Wednesday";
+        case 4:
+            return "Thursday";
+        case 5:
+            return "Friday";
+        case 6:
+            return "Saturday";
     }
 }
 //# sourceMappingURL=funtions.js.map

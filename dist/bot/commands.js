@@ -1,6 +1,6 @@
 import { MongoClass } from "./mongo.js";
 import { VoiceHandlerClass } from "./voice.js";
-import { makeRandomLizard, makeFieCommand, makeDotBotCommand, makeSmartcastCommand, makePandaCommand, makePrintCommands, makeBonkCommand, makeUsernameStatus, makeDateCommand, } from "./funtions.js";
+import { makeRandomLizard, makeFieCommand, makeDotBotCommand, makeSmartcastCommand, makePandaCommand, makePrintCommands, makeBonkCommand, makeUsernameStatus, makeFridayCommand, } from "./funtions.js";
 export class Commands {
     constructor(client) {
         this.voiceHandler = new VoiceHandlerClass();
@@ -14,7 +14,9 @@ export class Commands {
             [".bot", makeDotBotCommand()],
             ["!leaderboard", makePrintCommands(this.mongo)],
             ["!me", makeUsernameStatus(this.mongo)],
-            ["!date", makeDateCommand()],
+            ["!friday", makeFridayCommand()],
+            //["!bible", makeBibleVerse()], Removed due its not used atm
+            //["!date", makeDateCommand()], Removed due its not used atm
         ]);
     }
     // Function to return the map
