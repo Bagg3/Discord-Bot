@@ -10,6 +10,7 @@ import {
   makePrintCommands,
   makeBonkCommand,
   makeUsernameStatus,
+  makeDateCommand,
 } from "./funtions.js";
 
 export class Commands {
@@ -30,6 +31,7 @@ export class Commands {
       [".bot", makeDotBotCommand()],
       ["!leaderboard", makePrintCommands(this.mongo)],
       ["!me", makeUsernameStatus(this.mongo)],
+      ["!date", makeDateCommand()],
     ]);
   }
 

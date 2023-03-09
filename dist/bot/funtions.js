@@ -103,4 +103,32 @@ async function agregateUsernameLeaderboard(messageCreate, mongo) {
         console.log(doc);
     }
 }
+export function makeDateCommand() {
+    return (messageCreate) => {
+        getDate();
+    };
+}
+function getDate() {
+    const d = new Date();
+    const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+    console.log(date);
+    console.log(d.getDay());
+    for (let i = 0; i < 5; i++) {
+        const n = new Date(d);
+        n.setDate(n.getDate() - i);
+        const prior = n.getFullYear() + "-" + (n.getMonth() + 1) + "-" + n.getDate();
+        console.log(prior);
+    }
+}
+//Function that decides wether or not friday or monday should be the basis
+function chooseDay() {
+    const day = new Date().getDay() - 1;
+    // within certain intervals you gotta choose data from the previous week
+    if (day >= 0 && day <= 3) {
+        return "Monday";
+    }
+    if (day >= 4 && day <= 6) {
+        return "Friday";
+    }
+}
 //# sourceMappingURL=funtions.js.map
