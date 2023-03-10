@@ -103,11 +103,6 @@ async function agregateUsernameLeaderboard(messageCreate, mongo) {
         console.log(doc);
     }
 }
-export function makeDateCommand() {
-    return (messageCreate) => {
-        getDate();
-    };
-}
 export function makeFridayCommand() {
     return (messageCreate) => {
         getFriday(messageCreate);
@@ -115,18 +110,27 @@ export function makeFridayCommand() {
 }
 function getFriday(messageCreate) {
     const d = new Date();
-    if (d.getDate() == 5) {
-        messageCreate.channel.send("It is friday");
+    console.log(d.getDay());
+    if (d.getDay() == 5) {
+        messageCreate.channel.send("Today is friday 🥳");
     }
     else {
         messageCreate.channel.send("It is not friday 😭");
     }
 }
-function getDate() {
-    const d = new Date();
-    const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-    console.log(printDate(d.getDay()));
+/*
+export function makeDateCommand() {
+  return (messageCreate: Message) => {
+    getDate();
+  };
 }
+*/
+/*function getDate() {
+  const d = new Date();
+  const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  console.log(printDate(d.getDay()));
+}
+*/
 //Function that decides wether or not friday or monday should be the basis
 function printDate(jsDate) {
     switch (jsDate) {

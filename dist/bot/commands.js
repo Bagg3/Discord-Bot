@@ -1,6 +1,8 @@
 import { MongoClass } from "./mongo.js";
 import { VoiceHandlerClass } from "./voice.js";
-import { makeRandomLizard, makeFieCommand, makeDotBotCommand, makeSmartcastCommand, makePandaCommand, makePrintCommands, makeBonkCommand, makeUsernameStatus, makeFridayCommand, } from "./funtions.js";
+import { makeRandomLizard, makeFieCommand, makeDotBotCommand, makeSmartcastCommand, makePandaCommand, makePrintCommands, makeBonkCommand, makeUsernameStatus, 
+//makeDateCommand,
+makeFridayCommand, } from "./funtions.js";
 export class Commands {
     constructor(client) {
         this.voiceHandler = new VoiceHandlerClass();

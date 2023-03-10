@@ -10,7 +10,7 @@ import {
   makePrintCommands,
   makeBonkCommand,
   makeUsernameStatus,
-  makeDateCommand,
+  //makeDateCommand,
   makeFridayCommand,
 } from "./funtions.js";
 
