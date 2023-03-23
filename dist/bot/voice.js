@@ -1,5 +1,5 @@
 // Import voice dependencies from discord/voice
-import { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, VoiceConnectionStatus, } from "@discordjs/voice";
+import { joinVoiceChannel, createAudioPlayer, createAudioResource, AudioPlayerStatus, } from "@discordjs/voice";
 export class VoiceHandlerClass {
     constructor() { }
     // Function to join a voice channel
@@ -18,9 +18,13 @@ export class VoiceHandlerClass {
             guildId: guildID,
             adapterCreator: guild.voiceAdapterCreator,
         });
+        /* -- Used to check if the connection is ready --
         this.connection.on(VoiceConnectionStatus.Ready, () => {
-            console.log("The connection has entered the Ready state - ready to play audio!");
+          console.log(
+            "The connection has entered the Ready state - ready to play audio!"
+          );
         });
+        */
     }
     playSound(soundRef) {
         this.audioPlayer = createAudioPlayer();
@@ -29,9 +33,7 @@ export class VoiceHandlerClass {
         const subscription = this.connection.subscribe(this.audioPlayer);
         const sound = createAudioResource(soundRef);
         this.audioPlayer.play(sound);
-        this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
-            console.log("The audio player has started playing!");
-        });
+        this.audioPlayer.on(AudioPlayerStatus.Playing, () => { });
     }
     VoiceDestroyConnection() {
         if (!this.audioPlayer)

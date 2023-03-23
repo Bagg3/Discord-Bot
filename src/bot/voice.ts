@@ -37,11 +37,13 @@ export class VoiceHandlerClass {
       adapterCreator: guild.voiceAdapterCreator,
     });
 
+    /* -- Used to check if the connection is ready --
     this.connection.on(VoiceConnectionStatus.Ready, () => {
       console.log(
         "The connection has entered the Ready state - ready to play audio!"
       );
     });
+    */
   }
 
   playSound(soundRef: string) {
@@ -53,9 +55,7 @@ export class VoiceHandlerClass {
 
     this.audioPlayer.play(sound);
 
-    this.audioPlayer.on(AudioPlayerStatus.Playing, () => {
-      console.log("The audio player has started playing!");
-    });
+    this.audioPlayer.on(AudioPlayerStatus.Playing, () => {});
   }
 
   VoiceDestroyConnection() {
