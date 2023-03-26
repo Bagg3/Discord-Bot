@@ -8,7 +8,7 @@ export function makeBibleVerse() {
 }
 
 async function bibleVerse(messageCreate: Message) {
-  const browser = await playwright.chromium.launch({
+  const browser = await playwright.firefox.launch({
     headless: true, // setting this to true will not run the UI
   });
 
