@@ -14,6 +14,7 @@ import {
   makeFridayCommand,
 } from "./funtions.js";
 
+import { makeBibleVerse } from "./bible.js";
 export class Commands {
   botCommandsMap: Map<string, Function>;
   voiceHandler: VoiceHandlerClass;
@@ -33,7 +34,7 @@ export class Commands {
       ["!leaderboard", makePrintCommands(this.mongo)],
       ["!me", makeUsernameStatus(this.mongo)],
       ["!friday", makeFridayCommand()],
-      //["!bible", makeBibleVerse()], Removed due its not used atm
+      ["!bible", makeBibleVerse()],
       //["!date", makeDateCommand()], Removed due its not used atm
     ]);
   }

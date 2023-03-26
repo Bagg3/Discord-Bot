@@ -162,10 +162,17 @@ async function agregateUsernameLeaderboard(
 
 export function makeFridayCommand() {
   return (messageCreate: Message) => {
-    getFriday(messageCreate);
+    //getFriday(messageCreate);
+    const d = new Date();
+    if (d.getDay() == 5) {
+      messageCreate.channel.send("Today is friday 🥳");
+    } else {
+      messageCreate.channel.send("It is not friday 😭");
+    }
   };
 }
 
+/* Not used as the function isnt async  
 function getFriday(messageCreate: Message) {
   const d = new Date();
   console.log(d.getDay());
@@ -175,6 +182,7 @@ function getFriday(messageCreate: Message) {
     messageCreate.channel.send("It is not friday 😭");
   }
 }
+*/
 
 /*
 export function makeDateCommand() {
