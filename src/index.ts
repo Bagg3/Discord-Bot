@@ -1,12 +1,17 @@
 // Importing the bot class for all the commands
 import { ClientClass } from "./bot/client.js";
 import * as dotenv from "dotenv";
+import * as os from "os";
 
-// For the raspberry pi to find the .env file
-const result = dotenv.config({ path: "/home/andre/project1/.env" });
+let result;
 
-// For the windows to find the .env file
-// const result = dotenv.config();
+if (os.arch() === "arm" && os.platform() === "linux") {
+  // Running on a Raspberry Pi
+  result = dotenv.config({ path: "/home/andre/project1/.env" });
+} else {
+  // Running on a PC
+  result = dotenv.config();
+}
 
 if (result.error) {
   throw result.error;
