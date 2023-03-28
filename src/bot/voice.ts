@@ -36,14 +36,6 @@ export class VoiceHandlerClass {
       guildId: guildID,
       adapterCreator: guild.voiceAdapterCreator,
     });
-
-    /* -- Used to check if the connection is ready --
-    this.connection.on(VoiceConnectionStatus.Ready, () => {
-      console.log(
-        "The connection has entered the Ready state - ready to play audio!"
-      );
-    });
-    */
   }
 
   playSound(soundRef: string) {

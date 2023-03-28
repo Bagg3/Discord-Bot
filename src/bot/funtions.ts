@@ -126,7 +126,6 @@ async function agregateCommandsLeaderboard(
 
   for await (const doc of res) {
     messageCreate.channel.send(doc._id + " " + doc.count);
-    console.log(doc);
   }
 }
 
@@ -156,7 +155,6 @@ async function agregateUsernameLeaderboard(
   for await (const doc of res) {
     const command = capitalizeFirstLetter(doc.command);
     messageCreate.channel.send(command + ": " + doc.count);
-    console.log(doc);
   }
 }
 
@@ -171,33 +169,6 @@ export function makeFridayCommand() {
     }
   };
 }
-
-/* Not used as the function isnt async  
-function getFriday(messageCreate: Message) {
-  const d = new Date();
-  console.log(d.getDay());
-  if (d.getDay() == 5) {
-    messageCreate.channel.send("Today is friday 🥳");
-  } else {
-    messageCreate.channel.send("It is not friday 😭");
-  }
-}
-*/
-
-/*
-export function makeDateCommand() {
-  return (messageCreate: Message) => {
-    getDate();
-  };
-}
-*/
-
-/*function getDate() {
-  const d = new Date();
-  const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-  console.log(printDate(d.getDay()));
-}
-*/
 
 //Function that decides wether or not friday or monday should be the basis
 function printDate(jsDate: number) {
@@ -217,4 +188,31 @@ function printDate(jsDate: number) {
     case 6:
       return "Saturday";
   }
+
+  /* Not used as the function isnt async  
+function getFriday(messageCreate: Message) {
+  const d = new Date();
+  console.log(d.getDay());
+  if (d.getDay() == 5) {
+    messageCreate.channel.send("Today is friday 🥳");
+  } else {
+    messageCreate.channel.send("It is not friday 😭");
+  }
+}
+*/
+
+  /*
+export function makeDateCommand() {
+  return (messageCreate: Message) => {
+    getDate();
+  };
+}
+*/
+
+  /*function getDate() {
+  const d = new Date();
+  const date = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+  console.log(printDate(d.getDay()));
+}
+*/
 }
