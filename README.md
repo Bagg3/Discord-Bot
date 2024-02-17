@@ -1,6 +1,6 @@
 # Discord Bot with TypeScript/JavaScript
 
-Welcome to my first Discord Bot project, crafted in TypeScript/JavaScript. Please bear in mind that the quality of the code mirrors my learning journey in these languages.
+Welcome to my first Discord Bot project, crafted in TypeScript/JavaScript. The quality of the code mirrors my learning journey in these languages.
 
 ## Project Overview
 
